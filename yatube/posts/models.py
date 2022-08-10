@@ -24,7 +24,7 @@ class Post(models.Model):
     group = models.ForeignKey(
         Group,
         blank=True,
-        null=True, 
+        null=True,
         related_name='+',
-        on_delete=models.SET('Категория удалена'),
-    )
+        on_delete=models.SET('Категория удалена')
+        )
