@@ -25,6 +25,6 @@ class Post(models.Model):
         Group,
         blank=True,
         null=True,
-        related_name='+',
-        on_delete=models.SET('Категория удалена')
+        related_name='empty',
+        on_delete=models.SET(None)
     )
