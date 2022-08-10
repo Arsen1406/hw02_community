@@ -27,4 +27,4 @@ class Post(models.Model):
         null=True,
         related_name='+',
         on_delete=models.SET('Категория удалена')
-        )
+    )
