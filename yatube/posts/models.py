@@ -25,6 +25,6 @@ class Post(models.Model):
         Group,
         blank=True,
         null=True,
-        related_name='empty',
-        on_delete=models.SET(None)
+        related_name='posts',
+        on_delete=models.SET_NULL
     )
