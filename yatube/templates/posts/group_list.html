@@ -4,13 +4,18 @@
 {% endblock %}
 {% block content %}
 <h1>Записи сообщества {{ group }}</h1>
-{% for post in posts %}
+{% for post in page_obj %}
 <ul>
   <li>Автор: {{ post.author.get_full_name }}</li>
   <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
 </ul>
 <p>{{ post.text }}</p>
-{% if not forloop.last %}<hr>{% endif %}
+{% if not forloop.last %}{% endif %}
+  {% if post.group %}
+    <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+  {% endif %}<br>
+  <a href="{% url 'posts:profile' post.author %}">все посты пользователя</a><br>
+<hr>
 {% endfor %}
 {% include 'posts/includes/paginator.html' %}
 <a href="{% url 'posts:index' %}">Вернуться на главную страницу</a>

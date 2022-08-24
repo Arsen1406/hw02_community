@@ -1,4 +1,3 @@
-import imp
 from django import template
 
 

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'about.apps.AboutConfig'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,6 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+REST_AUTH_SERIALIZERS = {
+    'PASSWORD_RESET_SERIALIZER':'path.to.PasswordResetSerializer'
+}
