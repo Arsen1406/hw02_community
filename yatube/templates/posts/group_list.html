@@ -12,5 +12,6 @@
 <p>{{ post.text }}</p>
 {% if not forloop.last %}<hr>{% endif %}
 {% endfor %}
+{% include 'posts/includes/paginator.html' %}
 <a href="{% url 'posts:index' %}">Вернуться на главную страницу</a>
 {% endblock %} 
