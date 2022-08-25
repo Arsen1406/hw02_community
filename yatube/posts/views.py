@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Post, Group, User
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.db.models import Count
+from .models import Post, Group, User
+from . form import PostForm
+
 
 
 def index(request):
@@ -67,8 +68,24 @@ def post_detail(request, post_id):
 
 def post_create(request):
     group = Group.objects.all()
+    title = request.user.username
+    title = User.objects.get(username=title)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = Post()
+            post.text = form.cleaned_data['text']
+            post.group = form.cleaned_data['group']
+            post.author_id = request.user.id
+            post.save()
+            return HttpResponseRedirect(f'/profile/{title}')
+    else:
+        form = PostForm
+
     context = {
-        'group': group
+        'title': title,
+        'group': group,
+        'form': form
     }
     return render(request, 'posts/create_post.html', context)
 

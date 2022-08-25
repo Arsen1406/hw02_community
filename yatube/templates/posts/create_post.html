@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-  Записи сообщества {{ group }}
+    Записи сообщества {{ title.get_full_name }}
 {% endblock %}
 {% block content %}
     <main>
@@ -12,7 +12,7 @@
                 Новый пост             
               </div>
               <div class="card-body">        
-                <form method="post" action="{% url 'posts:post_create' %}">
+                <form method="post" action="{% url 'posts:post_create' %}">{% csrf_token %}
                   <input type="hidden" name="csrfmiddlewaretoken" value="">            
                   <div class="form-group row my-3 p-3">
                     <label for="id_text">
@@ -32,7 +32,7 @@
                     <select name="group" class="form-control" id="id_group">
                       <option value="" selected>---------</option>
                       {% for gro in group %}
-                      <option value="1">{{ gro.title }}</option>
+                      <option value={{ gro.id }}>{{ gro }}</option>
                       {% endfor %}
                     </select>
                     <small id="id_group-help" class="form-text text-muted">
@@ -40,7 +40,7 @@
                     </small>
                   </div>
                   <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary">{% csrf_token %}
                       Сохранить
                     </button>
                   </div>
