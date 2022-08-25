@@ -11,6 +11,10 @@
       <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li><br>
       {{ post }}
   </p>
+      <a href="{% url 'posts:post_detail' post.id %}">читать</a><br>
+      {% if user == post.author %}
+        <a href="{% url 'posts:edit' post.id %}">редактировать пост</a><br>
+      {% endif %}
       {% if post.group %}
       <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
       {% endif %}<br>

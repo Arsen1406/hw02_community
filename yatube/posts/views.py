@@ -2,8 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.db.models import Count
 from .models import Post, Group, User
-from . form import PostForm
-
+from .form import PostForm
 
 
 def index(request):
@@ -63,10 +62,12 @@ def post_detail(request, post_id):
         'count': count,
         'post': post,
     }
-    return render(request, 'posts/post_detail.html', context)
+    template = 'posts/post_detail.html'
+    return render(request, template, context)
 
 
 def post_create(request):
+    is_edit = False
     group = Group.objects.all()
     title = request.user.username
     title = User.objects.get(username=title)
@@ -83,11 +84,38 @@ def post_create(request):
         form = PostForm
 
     context = {
+        'is_edit': is_edit,
         'title': title,
         'group': group,
         'form': form
     }
-    return render(request, 'posts/create_post.html', context)
+    template = 'posts/create_post.html'
+    return render(request, template, context)
+
+
+def post_edit(request, post_id):
+    is_edit = True
+    group = Group.objects.all()
+    user_name = request.user.username
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user.id == post.author_id:
+        if request.method == 'POST':
+            form = PostForm(request.POST, instance=post)
+            if form.is_valid():
+                post.save()
+                return HttpResponseRedirect(f'/profile/{user_name}')
+        else:
+            form = PostForm
+    else:
+        return HttpResponseRedirect(f'/posts/{post_id}')
+    context = {
+        'is_edit': is_edit,
+        'group': group,
+        'form': form,
+        'post': post,
+    }
+    template = 'posts/create_post.html'
+    return render(request, template, context)
 
 # class JustStaticPage(TemplateView):
 #     template_name = 'posts/about_author.html'
